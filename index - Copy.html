@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Envelope</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .envelope-container {
+            position: relative;
+            text-align: center;
+        }
+
+        .envelope {
+            width: 220px;
+            height: 140px;
+            position: relative;
+            background: #ff4d6d;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #ff4d6d;
+            transition: transform 0.5s ease-in-out;
+            overflow: hidden;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 110px solid transparent;
+            border-right: 110px solid transparent;
+            border-bottom: 70px solid #ff1e50;
+            transition: transform 0.5s ease-in-out;
+            transform-origin: top;
+            z-index: 2;
+        }
+
+        .message {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        .message p {
+            font-size: 16px;
+            font-weight: bold;
+            color: #222;
+            margin: 0;
+        }
+
+        .message button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            border: none;
+            background: #ff1e50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ff1e50;
+        }
+
+        .open-btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            border: none;
+            background: #ff1e50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ff1e50;
+            font-size: 16px;
+        }
+
+        /* تأثير القلوب */
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: red;
+            animation: floatUp 2s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+
+        /* فتح الظرف */
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope.open .message {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-container">
+        <div class="envelope">
+            <div class="flap"></div>
+            <div class="body"></div>
+            <div class="message">
+                <p>إيمان أجمد مهندسة في الدنيا<br> Eman is the best engineer in the world!</p>
+                <button onclick="closeEnvelope()">Close</button>
+            </div>
+        </div>
+        <button class="open-btn" onclick="openEnvelope()">Open</button>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            let envelope = document.querySelector(".envelope");
+            envelope.classList.add("open");
+            createHearts();
+        }
+
+        function closeEnvelope() {
+            document.querySelector(".envelope").classList.remove("open");
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 10; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤";
+                heart.style.left = Math.random() * window.innerWidth + "px";
+                heart.style.top = "50%";
+                heart.style.animationDuration = (Math.random() * 2 + 1) + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 2000);
+            }
+        }
+    </script>
+
+</body>
+</html>
